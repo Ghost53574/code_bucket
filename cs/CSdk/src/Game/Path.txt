@@ -1,0 +1,53 @@
+** The library structure you see here with the appended chart are
+** only for reference on how the framework is suppose to be laid
+** out. Nothing more should be taken from this.
+
+___________________________________________________________________
+
+                     # Library structure #
+___________________________________________________________________
+Arrays--------|-Common---------------------------------------|
+Database------|                                              |
+Engine--------|       Data-----------|-Sdk-------------------|
+Environments--|       Sdk------------|                       |
+Errors--------|                                              |
+Memory--------|                                              |
+                                                             |
+Catcher-------|-Debug----------------------------------------|
+Config--------|                                              |
+                                                             |
+Asset---------|-Drawing--------------------------------------|
+Blob----------|                                              |
+Bracket-------|      Animations------|-Effects---------------|
+Camera--------|      Colors----------|                       |
+Direction-----|      Light-----------|                       |
+Drawing-------|      Normalization---|                       |--SDK
+Frame---------|      Shader----------|                       |
+Line----------|      Texture---------|                       |
+Mesh----------|      Transformations-|                       |
+Metadata------|                                              |
+Model---------|      Data------------|-Game------------------|
+Objects-------|      Events----------|                       |
+Point---------|      Game------------|                       |
+Position------|      Instance--------|    Logger-----|-Tools-|
+Unit----------|      Level-----------|    ObjToFile--|
+                     Location--------|    ObjToMem---|
+                     Manager---------|    ParseColors|
+                     Map-------------|    ParseUnits-|
+                     Save------------|
+                     Watcher---------|
+___________________________________________________________________
+
+                       # Game structure #
+___________________________________________________________________
+
+Map--------|-Level-|
+           |       |-Instance-|-Save-----|
+Handler----|       |          |          |
+Events-----|       |          |-Manager--|-Watcher
+Location---|       |          |-Game-----|
+
+___________________________________________________________________
+
+                        # Sdk structure #
+___________________________________________________________________

@@ -1,0 +1,121 @@
+CS=mcs
+
+MAIN = ./Main/
+COMMON = ./Common/
+DEBUG = ./Debug/
+DRAWING = ./Drawing/
+OBJECTS = ./Objects/
+EFFECTS = ./Effects/
+GAME = ./Game/
+SDK = ./Sdk/
+TOOLS = ./Tools/
+TEST = ./Tests/
+LIB = ../lib/
+BIN = ../bin/
+PKG = ../packages/
+SRC = ../
+
+COMMON_LIB = \
+	$(COMMON)Arrays.cs \
+	$(COMMON)Database.cs \
+	$(COMMON)Debug.cs \
+	$(COMMON)Memory.cs \
+	$(COMMON)Handler.cs \
+
+DEBUG_LIB = \
+	$(DEBUG)Catcher.cs \
+	$(DEBUG)Config.cs \
+	$(DEBUG)ReadConfig.cs
+
+OBJECTS_LIB = \
+	$(OBJECTS)Direction.cs \
+	$(OBJECTS)Point.cs \
+	$(OBJECTS)Line.cs \
+	$(OBJECTS)Bracket.cs \
+	$(OBJECTS)Position.cs \
+	$(OBJECTS)Metadata.cs \
+	$(OBJECTS)Objects.cs
+
+DRAWING_LIB = \
+	$(DRAWING)Asset.cs \
+	$(DRAWING)Blob.cs \
+	$(DRAWING)Camera.cs \
+	$(DRAWING)Frame.cs \
+	$(DRAWING)Location.cs \
+	$(DRAWING)Mesh.cs \
+	$(DRAWING)Model.cs \
+	$(DRAWING)Unit.cs \
+	$(DRAWING)Normalization.cs \
+	$(DRAWING)Transformations.cs
+
+EFFECTS_LIB = \
+	$(EFFECTS)Animations.cs \
+	$(EFFECTS)Colors.cs \
+	$(EFFECTS)Light.cs \
+	$(EFFECTS)Shader.cs \
+	$(EFFECTS)Texture.cs
+
+GAME_LIB = \
+	$(GAME)Data.cs \
+	$(GAME)Converter.cs \
+	$(GAME)Events.cs \
+	$(GAME)Game.cs \
+	$(GAME)Instance.cs \
+	$(GAME)Level.cs \
+	$(GAME)Location.cs \
+	$(GAME)Manager.cs \
+	$(GAME)Map.cs \
+	$(GAME)Save.cs \
+	$(GAME)Watcher.cs
+
+SDK_LIB = \
+	$(SDK)Data.cs \
+	$(SDK)Sdk.cs
+
+TOOLS_LIB = \
+	$(TOOLS)Environments.cs \
+	$(TOOLS)Logger.cs \
+	$(TOOLS)ObjToFile.cs \
+	$(TOOLS)ObjToMem.cs \
+	$(TOOLS)ParseColors.cs \
+	$(TOOLS)ParseUnits.cs \
+	$(TOOLS)Resources.cs \
+	$(TOOLS)FormatData.cs
+
+TEST_LIB = \
+	$(TEST)Test.cs
+
+PKG_LIB = \
+	$(PKG)nunit.framework.dll
+
+all: lib exe install
+
+lib:
+	$(CS) -t:library -out:$(LIB)Tools.dll $(TOOLS_LIB)
+	$(CS) -r:$(LIB)Tools.dll -t:library -out:$(LIB)Debug.dll $(DEBUG_LIB)
+	$(CS) -r:$(LIB)Tools.dll -t:library -out:$(LIB)Common.dll $(COMMON_LIB)
+	$(CS) -r:$(LIB)Common.dll -t:library -out:$(LIB)Objects.dll $(OBJECTS_LIB)
+	$(CS) -r:$(LIB)Objects.dll -t:library -out:$(LIB)Effects.dll $(EFFECTS_LIB)
+	$(CS) -r:$(LIB)Tools.dll,$(LIB)Objects.dll,$(LIB)Common.dll,$(LIB)Effects.dll -t:library -out:$(LIB)Drawing.dll $(DRAWING_LIB)
+	$(CS) -r:$(LIB)Tools.dll,$(LIB)Objects.dll,$(LIB)Common.dll,$(LIB)Effects.dll,$(LIB)Drawing.dll,$(LIB)Effects.dll -t:library -out:$(LIB)Game.dll $(GAME_LIB)
+	$(CS) -r:$(LIB)Tools.dll,$(LIB)Objects.dll,$(LIB)Common.dll,$(LIB)Effects.dll,$(LIB)Drawing.dll,$(LIB)Effects.dll -t:library -out:$(LIB)Sdk.dll $(SDK_LIB)
+	$(CS) -r:$(PKG_LIB),$(LIB)Tools.dll,$(LIB)Objects.dll,$(LIB)Common.dll,$(LIB)Effects.dll,$(LIB)Drawing.dll,$(LIB)Effects.dll,$(LIB)Debug.dll -t:library -out:$(LIB)Tests.dll $(TEST_LIB)
+exe:
+	$(CS) -r:$(LIB)Game.dll,$(LIB)Sdk.dll -t:exe -out:$(SRC)Csdk.exe $(MAIN)CSdk.cs
+	$(CS) -r:$(LIB)Tools.dll,$(LIB)Debug.dll,$(LIB)Common.dll -t:exe -out:$(SRC)Debugger.exe $(MAIN)Debugger.cs
+
+install: ;
+
+clean:
+	rm -rf $(SRC)Csdk.exe
+	rm -rf $(SRC)Debugger.exe
+	rm -rf $(SRC)Test.exe
+	rm -rf $(LIB)Tools.dll
+	rm -rf $(LIB)Objects.dll
+	rm -rf $(LIB)Debug.dll
+	rm -rf $(LIB)Common.dll
+	rm -rf $(LIB)Drawing.dll
+	rm -rf $(LIB)Effects.dll
+	rm -rf $(LIB)Game.dll
+	rm -rf $(LIB)Sdk.dll
+

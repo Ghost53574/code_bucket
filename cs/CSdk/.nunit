@@ -1,0 +1,7 @@
+<NUnitProject>
+    <Settings activeconfig="active" appbase="\lib"/>
+    <Config name="Tests">
+        <assembly path="nunit.framework.dll"/>
+        <assembly path="Tests.dll"/>
+    </Config>
+</NUnitProject>

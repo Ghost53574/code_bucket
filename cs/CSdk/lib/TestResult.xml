@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8" standalone="no"?>
+<!--This file represents the results of running a test suite-->
+<test-results name="/home/gh0st/Code/gits/CSdk/lib/Tools.dll" total="0" errors="0" failures="0" not-run="0" inconclusive="0" ignored="0" skipped="0" invalid="0" date="2016-04-04" time="19:54:03">
+  <environment nunit-version="2.6.3.0" clr-version="4.0.30319.17020" os-version="Unix 4.4.4.64" platform="Unix" cwd="/home/gh0st/Code/gits/CSdk/lib" machine-name="parrot" user="gh0st" user-domain="parrot" />
+  <culture-info current-culture="en-US" current-uiculture="en-US" />
+  <test-suite type="Assembly" name="/home/gh0st/Code/gits/CSdk/lib/Tools.dll" executed="True" result="Inconclusive" success="False" time="0.012" asserts="0" />
+</test-results>

@@ -1,0 +1,107 @@
+COMMON = ./Common/
+DEBUG = ./Debug/
+DRAWING = ./Drawing/
+EFFECTS = ./Effects/
+GAME = ./Game/
+SDK = ./Sdk/
+TOOLS = ./Tools/
+TEST = ./Test/
+LIB = ../lib/
+SRC = ../
+
+COMMON_LIB = \
+	$(COMMON)Arrays.cs \
+	$(COMMON)Database.cs \
+	$(COMMON)Debug.cs \
+	$(COMMON)Memory.cs \
+	$(COMMON)Handler.cs
+
+DEBUG_LIB = \
+	$(DEBUG)Catcher.cs \
+	$(DEBUG)Config.cs
+
+OBJECTS_LIB = \
+	$(DRAWING)Point.cs \
+	$(DRAWING)Line.cs \
+	$(DRAWING)Bracket.cs \
+	$(DRAWING)Objects.cs
+
+DRAWING_LIB = \
+	$(DRAWING)Asset.cs \
+	$(DRAWING)Blob.cs \
+	$(DRAWING)Camera.cs \
+	$(DRAWING)Direction.cs \
+	$(DRAWING)Frame.cs \
+	$(DRAWING)Location.cs \
+	$(DRAWING)Mesh.cs \
+	$(DRAWING)Metadata.cs \
+	$(DRAWING)Model.cs \
+	$(DRAWING)Position.cs \
+	$(DRAWING)Unit.cs
+
+EFFECTS_LIB = \
+	$(EFFECTS)Animations.cs \
+	$(EFFECTS)Colors.cs \
+	$(EFFECTS)Light.cs \
+	$(EFFECTS)Normalization.cs \
+	$(EFFECTS)Shader.cs \
+	$(EFFECTS)Texture.cs \
+	$(EFFECTS)Transformations.cs
+
+GAME_LIB = \
+	$(GAME)Data.cs \
+	$(GAME)Events.cs \
+	$(GAME)Game.cs \
+	$(GAME)Instance.cs \
+	$(GAME)Level.cs \
+	$(GAME)Location.cs \
+	$(GAME)Manager.cs \
+	$(GAME)Map.cs \
+	$(GAME)Save.cs \
+	$(GAME)Watcher.cs
+
+SDK_LIB = \
+	$(SDK)Data.cs \
+	$(SDK)Sdk.cs
+
+TOOLS_LIB = \
+	$(TOOLS)Environments.cs \
+	$(TOOLS)Logger.cs \
+	$(TOOLS)ObjToFile.cs \
+	$(TOOLS)ObjToMem.cs \
+	$(TOOLS)ParseColors.cs \
+	$(TOOLS)ParseUnits.cs
+
+TEST_LIB = \
+	$(TEST)Test.cs
+
+all: lib exe
+
+lib:
+	csc /t:library /out:$(LIB)Tools.dll $(TOOLS_LIB)
+	csc /t:library /out:$(LIB)Objects.dll $(OBJECTS_LIB)
+	csc /r:$(LIB)Tools.dll /t:library /out:$(LIB)Debug.dll $(DEBUG_LIB)
+	csc /r:$(LIB)Tools.dll /t:library /out:$(LIB)Common.dll $(COMMON_LIB)
+	csc /r:$(LIB)Tools.dll /r:$(LIB)Objects.dll,$(LIB)Common.dll /t:library /out:$(LIB)Drawing.dll
+	csc /r:$(LIB)Tools.dll /r:$(LIB)Objects.dll,$(LIB)Common.dll /r:$(LIB)Drawing.dll /t:library /out:$(LIB)Effects.dll $(EFFECTS_LIB)
+	csc /r:$(LIB)Tools.dll /r:$(LIB)Objects.dll,$(LIB)Common.dll /r:$(LIB)Drawing.dll /r:$(LIB)Effects.dll /t:library /out:$(LIB)Game.dll $(GAME_LIB)
+	csc /r:$(LIB)Tools.dll /r:$(LIB)Objects.dll,$(LIB)Common.dll /r:$(LIB)Drawing.dll /r:$(LIB)Effects.dll /t:library /out:$(LIB)Sdk.dll $(SDK_LIB)
+
+exe:
+	csc /r:$(LIB)Game.dll /r:$(LIB)Sdk.dll \t:exe \out:$(SRC)Csdk.exe
+	csc /r:$(LIB)Debug.dll /r:$(LIB)Common.dll \t:exe \out:$(SRC)Debugger.exe
+	csc /t:exe /out:$(SRC)Test.exe $(TEST_LIB)
+
+unit: ;
+
+clean:
+	del $(SRC)Csdk.exe
+	del $(SRC)Debugger.exe
+	del $(SRC)Test.exe
+	del $(LIB)Tools.dll
+	del $(LIB)Debug.dll
+	del $(LIB)Common.dll
+	del $(LIB)Drawing.dll
+	del $(LIB)Effects.dll
+	del $(LIB)Game.dll
+	del $(LIB)Sdk.dll

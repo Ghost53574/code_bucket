@@ -1,0 +1,13 @@
+3/5/2016 - OSCSDK
+-----------------
+1) Figure out what to do with Resources | Environemnts
+2) Create msbuild and python main script
+3) Fix Animations
+4) Add Pathing
+5) Integrate vkpp to C#
+6) Start Graphics library
+7) Finish Sdk main
+8) Make GUI
+9) Create example game
+10) Make framework robust, clear issues, polish code and catch all errors.
+11) First Release

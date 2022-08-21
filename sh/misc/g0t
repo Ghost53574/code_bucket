@@ -1,0 +1,94 @@
+#!/bin/sh
+# Merging
+rm -vf CREADME CHANGELOG* readme* README* stage*
+echo "Number of files:" `find . -type f | wc -l`
+cat * > /tmp/aio-"${PWD##*/}".lst
+mv /tmp/aio-"${PWD##*/}".lst ./
+wc -l aio-"${PWD##*/}".lst
+file -k aio-"${PWD##*/}".lst
+# Uniq Lines
+cat aio-"${PWD##*/}".lst | sort -b -f -i -T "$(pwd)/" | uniq > stage1 && wc -l stage1
+# "Clean" Lines
+tr '\r' '\n' < stage1 > stage2-tmp && rm stage1 && tr '\0' ' ' < stage2-tmp > stage2-tmp1 && rm stage2-tmp && tr -cd '\11\12\15\40-\176' < stage2-tmp1 > stage2-tmp && rm stage2-tmp1
+cat stage2-tmp | sed "s/&nbsp;*/ /gI;s/^[ \t]*//;s/[ \t]*$//" | sort -b -f -i -T "$(pwd)/" | uniq > stage2 && rm stage2-* && wc -l stage2
+
+# Remove HTML Tags
+# htmlTags="a|b|big|blockquote|body|br|center|code|del|div|em|font|h[1-9]|head|hr|html|i|img|ins|item|li|ol|option|p|pre|s|small|span|strong|sub|sup|table|td|th|title|tr|tt|u|ul"
+# cat stage2 | sed -r "s/<[^>]*>//g;s/^\w.*=\"\w.*\">//;s/^($htmlTags)>//I;s/<\/*($htmlTags)$//I;s/&amp;*/&/gI;s/&quot;/\"/gI;s/&apos;/'/gI;s/&apos;/'/gI;s/&lt;/</gI;s/&pound;/£/gI" 
+cat stage 2 | sort -b -f -i -T "$(pwd)/" | uniq > stage3 && wc -l stage3 && rm stage2
+
+# Remove Email addresses
+cat stage3 | sed -r "s/\w.*\@.*\.(ac|ag|as|at|au|be|bg|bill|bm|bs|c|ca|cc|ch|cm|co|com|cs|de|dk|edu|es|fi|fm|fr|gov|gr|hr|hu|ic|ie|il|info|it|jo|jp|kr|lk|lu|lv|me|mil|mu|net|nil|nl|no|nt|org|pk|pl|pt|ru|se|si|tc|tk|to|tv|tw|uk|us|ws|yu):*//gI" | sort -b -f -i -T "$(pwd)/" | uniq > stage4 && wc -l stage4 && rm stage3
+
+# Misc
+pw-inspector -i aio-"${PWD##*/}".lst -o aio-"${PWD##*/}"-wpa.lst -m 8 -M 63 ; wc -l aio-"${PWD##*/}"-wpa.lst && rm aio-"${PWD##*/}"-wpa.lst
+pw-inspector -i stage4 -o stage5 -m 8 -M 63 ; wc -l stage5
+7za a -t7z -mx9 -v200m stage4.7z stage4
+du -sh *
+' ' ' < stage2-tmp > stage2-tmp1 && rm stage2-tmp && tr -cd '1250-76' < stage2-tmp1 > stage2-tmp && rm stage2-tmp1
+cat stage2-tmp | sed "s/&nbsp;*/ /gI;s/^[ \t]*//;s/[ \t]*$//" | sort -b -f -i -T "$(pwd)/" | uniq > stage2 && rm stage2-* && wc -l stage2
+
+#
+# Misc
+pw-inspector -i aio-"${PWD##*/}".lst -o aio-"${PWD##*/}"-wpa.lst -m 8 -M 63 ; wc -l aio-"${PWD##*/}"-wpa.lst && rm aio-"${PWD##*/}"-wpa.lst
+pw-inspector -i stage4 -o stage5 -m 8 -M 63 ; wc -l stage5
+7za a -t7z -mx9 -v200m stage4.7z stage4
+du -sh *
+rm -f stage*
+echo "Number of files:" `find . -type f | wc -l`
+cat * > /tmp/aio-"${PWD##*/}".lst && rm * && mv /tmp/aio-"${PWD##*/}".lst ./
+tr '\r' '\n' < aio-"${PWD##*/}".lst > stage1-tmp && tr '
+rm -f stage*
+echo "Number of files:" `find . -type f | wc -l`
+cat * > /tmp/aio-"${PWD##*/}".lst && rm * && mv /tmp/aio-"${PWD##*/}".lst ./
+tr '\r' '\n' < aio-"${PWD##*/}".lst > stage1-tmp && tr '\0' ' ' < stage1-tmp > stage1-tmp1 && tr -cd '\11\12\15\40-\176' < stage1-tmp1 > stage1-tmp && mv stage1-tmp stage1 && rm stage1-*   # End Of Line/New Line & "printable"
+
+htmlTags="a|b|big|blockquote|body|br|center|code|del|div|em|font|h[1-9]|head|hr|html|i|img|ins|item|li|ol|option|p|pre|s|small|span|strong|sub|sup|table|td|th|title|tr|tt|u|ul"
+cat stage1 | sed -r "s/&nbsp;*/ /gI;s/^[ \t]*//;s/[ \t]*$//;s/<[^>]*>//g;s/^\w.*=\"\w.*\">//;s/^($htmlTags)>//I;s/<\/*($htmlTags)$//I;s/&amp;*/&/gI;s/&quot;/\"/gI;s/&apos;/'/gI;s/&apos;/'/gI;s/&lt;/</gI;s/&pound;/£/gI;s/\w.*\@.*\.(ac|ag|as|at|au|be|bg|bill|bm|bs|c|ca|cc|ch|cm|co|com|cs|de|dk|edu|es|fi|fm|fr|gov|gr|hr|hu|ic|ie|il|info|it|jo|jp|kr|lk|lu|lv|me|mil|mu|net|nil|nl|no|nt|org|pk|pl|pt|ru|se|si|tc|tk|to|tv|tw|uk|us|ws|yu):*//gI" > stage2 && rm stage1
+
+sort -b -f -i -T "$(pwd)/" stage2 > stage3 && rm stage2
+grep -v " * .* \|" stage3 > stage3.1
+grep " * .* " stage3 > stage3.4
+#grep -v " * .* \|  " stage3 > stage3.1                                             # All one or two words
+#grep " * .* " stage3 | grep -v "  " > stage3.2                                     # All 3+ words
+#grep " * .* " stage3 | grep "  " > stage3.3                                        # All multiple spacing words
+rm stage3
+for fileIn in stage3.*; do                                                         # Place one or two words at the start,
+  cat "$fileIn" | uniq -c -d > stage3.0                                           # Sort, then find dups (else uniq could miss out a few values if the list wasn't in order e.g. test1 test2 test3, test2, test4)
+  sort -b -f -i -T "$(pwd)/" -k1,1r -k2 stage3.0 > stage3 && rm stage3.0          # Sort by amount of dup times (9-0) then by the value (A-Z)
+  sed 's/^ *//;s/^[0-9]* //' stage3 >> "${PWD##*/}"-clean.lst && rm stage3        # Remove "formatting" that uniq adds (Lots of spaces at the start)
+  cat "$fileIn" | uniq -u >> "${PWD##*/}"-clean.lst                               # Sort, then add unique values at the end (A-Z)
+  rm "$fileIn"
+done
+rm -f stage*   #aio-"${PWD##*/}".lst
+
+#7za a -t7z -mx9 -v200m "${PWD##*/}".7z "${PWD##*/}".lst
+
+wc -l "${PWD##*/}"-clean.lst
+md5sum "${PWD##*/}"-clean.lst
+' ' ' < stage1-tmp > stage1-tmp1 && tr -cd '1250-76' < stage1-tmp1 > stage1-tmp && mv stage1-tmp stage1 && rm stage1-*   # End Of Line/New Line & "printable"
+
+htmlTags="a|b|big|blockquote|body|br|center|code|del|div|em|font|h[1-9]|head|hr|html|i|img|ins|item|li|ol|option|p|pre|s|small|span|strong|sub|sup|table|td|th|title|tr|tt|u|ul"
+cat stage1 | sed -r "s/&nbsp;*/ /gI;s/^[ \t]*//;s/[ \t]*$//;s/<[^>]*>//g;s/^\w.*=\"\w.*\">//;s/^($htmlTags)>//I;s/<\/*($htmlTags)$//I;s/&amp;*/&/gI;s/&quot;/\"/gI;s/&apos;/'/gI;s/&apos;/'/gI;s/&lt;/</gI;s/&pound;/£/gI;s/\w.*\@.*\.(ac|ag|as|at|au|be|bg|bill|bm|bs|c|ca|cc|ch|cm|co|com|cs|de|dk|edu|es|fi|fm|fr|gov|gr|hr|hu|ic|ie|il|info|it|jo|jp|kr|lk|lu|lv|me|mil|mu|net|nil|nl|no|nt|org|pk|pl|pt|ru|se|si|tc|tk|to|tv|tw|uk|us|ws|yu):*//gI" > stage2 && rm stage1
+
+sort -b -f -i -T "$(pwd)/" stage2 > stage3 && rm stage2
+grep -v " * .* " stage3 > stage3.1
+grep " * .* " stage3 > stage3.4
+#grep -v " * .* \|  " stage3 > stage3.1                                             # All one or two words
+#grep " * .* " stage3 | grep -v "  " > stage3.2                                     # All 3+ words
+#grep " * .* " stage3 | grep "  " > stage3.3                                        # All multiple spacing words
+rm stage3
+for fileIn in stage3.*; do                                                         # Place one or two words at the start,
+  cat "$fileIn" | uniq -c -d > stage3.0                                           # Sort, then find dups (else uniq could miss out a few values if the list wasn't in order e.g. test1 test2 test3, test2, test4)
+  sort -b -f -i -T "$(pwd)/" -k1,1r -k2 stage3.0 > stage3 && rm stage3.0          # Sort by amount of dup times (9-0) then by the value (A-Z)
+  sed 's/^ *//;s/^[0-9]* //' stage3 >> "${PWD##*/}"-clean.lst && rm stage3        # Remove "formatting" that uniq adds (Lots of spaces at the start)
+  cat "$fileIn" | uniq -u >> "${PWD##*/}"-clean.lst                               # Sort, then add unique values at the end (A-Z)
+  rm "$fileIn"
+done
+rm -f stage*   #aio-"${PWD##*/}".lst
+
+#7za a -t7z -mx9 -v200m "${PWD##*/}".7z "${PWD##*/}".lst
+
+wc -l "${PWD##*/}"-clean.lst
+md5sum "${PWD##*/}"-clean.lst
+

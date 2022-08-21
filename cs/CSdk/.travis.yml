@@ -1,0 +1,20 @@
+language: csharp
+mono: latest
+os:
+    - linux
+    - osx
+
+matrix:
+    allow_failures:
+        - os: osx
+
+before_install:
+    - if [[ "$TRAVIS_OS_NAME" == "linux" ]]; then sudo apt-get install nunit-console ; fi
+    - if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then echo "Not yet working" ; fi
+    - make minimal
+
+install:
+    - make install
+
+script:
+    - ./done.sh
